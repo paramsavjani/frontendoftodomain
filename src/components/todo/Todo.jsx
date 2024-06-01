@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AiOutlineCheckCircle, AiOutlineEdit } from "react-icons/ai"; // Import icons
 import "./Todo.css"; // Import the corresponding CSS file
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+let user = sessionStorage.getItem("id");
 
 export default function Todo() {
     const [todos, setTodos] = useState([]);
@@ -11,12 +13,24 @@ export default function Todo() {
     const [isEditing, setIsEditing] = useState(false);
     const [currentTodo, setCurrentTodo] = useState(null);
 
-    const handleSubmit = (e) => {
+    useEffect(() => {
+        if (user) {
+            const fetch = async () => {
+                await axios
+                    .get(`http://192.168.1.7:1000/api/v2/getTasks/${user}`)
+                    .then((res) => {
+                        setTodos(res.data.lists);
+                    });
+            };
+            fetch();
+        }
+    });
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!title.trim()) {
             toast("Please fill the title", {
                 autoClose: 1500,
-                position: "top-right",
                 type: "error",
                 pauseOnHover: false,
             });
@@ -26,7 +40,6 @@ export default function Todo() {
         if (isEditing) {
             toast("Todo updated Successfully", {
                 autoClose: 1000,
-                position: "top-right",
                 type: "success",
                 pauseOnHover: false,
             });
@@ -38,13 +51,41 @@ export default function Todo() {
             setIsEditing(false);
             setCurrentTodo(null);
         } else {
-            toast("Todo added Successfully", {
-                autoClose: 1000,
-                position: "top-right",
-                type: "success",
-                pauseOnHover: false,
-            });
-            const newTodo = { id: Date.now(), title, body, completed: false };
+            user = sessionStorage.getItem("id");
+            if (user) {
+                await axios
+                    .post("http://192.168.1.7:1000/api/v2/addTask", {
+                        title: title,
+                        body: body,
+                        id: user,
+                    })
+                    .then((res) => {
+                        if (res.status === 200) {
+                            toast("Todo added Successfully", {
+                                autoClose: 1000,
+                                type: "success",
+                                pauseOnHover: false,
+                            });
+                        }
+                    });
+            } else {
+                toast("Todo added Successfully", {
+                    autoClose: 1800,
+                    type: "success",
+                    pauseOnHover: false,
+                });
+                toast("Your task is not saved! Please LogIn", {
+                    autoClose: 1800,
+                    type: "error",
+                    pauseOnHover: false,
+                });
+            }
+            const newTodo = {
+                id: Date.now(),
+                title,
+                body,
+                completed: false,
+            };
             setTodos([...todos, newTodo]);
         }
 
@@ -93,9 +134,9 @@ export default function Todo() {
                     <p className="no-todos">No todos yet. Add some todos!</p>
                 ) : (
                     <ul>
-                        {todos.map((todo) => (
+                        {todos.map((todo,index) => (
                             <li
-                                key={todo.id}
+                                key={index}
                                 className={`todo-item ${
                                     todo.completed ? "completed" : ""
                                 }`}
