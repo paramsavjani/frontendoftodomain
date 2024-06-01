@@ -4,8 +4,18 @@ import Signup from "./components/signup/Signup";
 import Login from "./components/login/Login";
 import Todo from "./components/todo/Todo";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { authActions } from "./store/index";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (sessionStorage.getItem("id")) {
+      dispatch(authActions.login());
+    }
+  }
+  );
   return (
     <>
       <Router>

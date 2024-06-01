@@ -5,8 +5,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { authActions } from "../../store/index";
+import { useDispatch } from "react-redux";
 
 export default function Login() {
+    const dispatch = useDispatch(); 
     const history = useNavigate();
     const [input, setInput] = useState({
         email: "",
@@ -39,8 +42,8 @@ export default function Login() {
                    type: "success",
                    pauseOnHover: false,
                });
-               console.log(res.data.others._id);
-
+               sessionStorage.setItem("id", res.data.others._id);
+               dispatch(authActions.login());
                setTimeout(() => {
                    history("/todo");
                }, 2000);
