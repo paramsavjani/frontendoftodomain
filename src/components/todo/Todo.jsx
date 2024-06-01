@@ -13,10 +13,23 @@ export default function Todo() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        toast("Todo added successfully!");
-        if (!title.trim() || !body.trim()) return;
+        if (!title.trim()) {
+            toast("Please fill the title", {
+                autoClose: 1500,
+                position: "top-right",
+                type: "error",
+                pauseOnHover: false,
+            });
+            return;
+        }
 
         if (isEditing) {
+            toast("Todo updated Successfully", {
+                autoClose: 1000,
+                position: "top-right",
+                type: "success",
+                pauseOnHover: false,
+            });
             setTodos(
                 todos.map((todo) =>
                     todo.id === currentTodo.id ? { ...todo, title, body } : todo
@@ -25,6 +38,12 @@ export default function Todo() {
             setIsEditing(false);
             setCurrentTodo(null);
         } else {
+            toast("Todo added Successfully", {
+                autoClose: 1000,
+                position: "top-right",
+                type: "success",
+                pauseOnHover: false,
+            });
             const newTodo = { id: Date.now(), title, body, completed: false };
             setTodos([...todos, newTodo]);
         }
