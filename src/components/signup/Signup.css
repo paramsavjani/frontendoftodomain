@@ -1,0 +1,61 @@
+
+.signup {
+    background: linear-gradient(to bottom, #ff6b6b, #f94d6a, #f37d4c, #f2af28);
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    /* Center-align the content */
+    padding: 100px 20px;
+    height: 100vh;
+    overflow: hidden;
+    /* Add padding around the content */
+}
+
+.content1 {
+    max-width: 400px;
+    /* Set max-width for the content */
+    margin: 0 auto;
+    /* Center the content horizontally */
+    background-color: #fff;
+    /* Set background color */
+    padding: 40px;
+    /* Add padding */
+    border-radius: 10px;
+    /* Add border radius */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Add box shadow */
+}
+
+.content1 h2 {
+    margin-bottom: 20px;
+    /* Add bottom margin to the heading */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    background-color: #ff6b6b;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #f94d6a;
+}

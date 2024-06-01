@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
+
+
+
+.home {
+    background: linear-gradient(to bottom, #ff6b6b, #f94d6a, #f37d4c, #f2af28);
+    text-align: center;
+    color: white;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 100px;
+}
+
+.content {
+    padding: 0 20px;
+}
+
+
+.home h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 56px;
+    margin-bottom: 20px;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+.description {
+    margin-bottom: 50px;
+}
+
+.description p {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 24px;
+    line-height: 1.5;
+}
+
+.todo-image {
+    max-width: 100%;
+    margin-bottom: 50px;
+    border-radius: 20px;
+}
+
+.make-todo-button-home {
+    background-color: #fff;
+    color: #ff6b6b;
+    padding: 20px 40px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 24px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.make-todo-button:hover {
+    background-color: #f94d6a;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+
+@media (max-width: 768px) {
+    .home {
+        height: 100vh;
+        padding-top: 0px;
+    }
+
+    .home h1 {
+        font-size: 40px;
+        margin-bottom: 20px;
+    }
+
+    .description p {
+        font-size: 22px;
+        line-height: 1.3;
+    }
+}
