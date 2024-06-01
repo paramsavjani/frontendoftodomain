@@ -30,6 +30,10 @@
     /* Add bottom margin to the heading */
 }
 
+.form {
+    display: flex;
+    flex-direction: column;
+}
 form {
     display: flex;
     flex-direction: column;
