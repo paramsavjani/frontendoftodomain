@@ -43,7 +43,9 @@ export default function Todo() {
             });
             setTodos(
                 todos.map((todo) =>
-                    todo.id === currentTodo.id ? { ...todo, title, body } : todo
+                    todo._id === currentTodo._id
+                        ? { ...todo, title, body }
+                        : todo
                 )
             );
             setIsEditing(false);
@@ -78,10 +80,9 @@ export default function Todo() {
                     pauseOnHover: false,
                 });
                 const newTodo = {
-                    id: Date.now(),
-                    title,
-                    body,
-                    completed: false,
+                    _id: Date.now(),
+                    title: title,
+                    body: body,
                 };
                 setTodos([newTodo, ...todos]);
             }
@@ -91,8 +92,17 @@ export default function Todo() {
         setBody("");
     };
 
-    const handleComplete = (id) => {
-        setTodos(todos.filter((todo) => todo.id !== id));
+    const handleComplete = async (id) => {
+        setTodos(todos.filter((todo) => todo._id !== id));
+        const user = sessionStorage.getItem("id");
+        if (user) {
+            await axios.delete(
+                `http://192.168.1.7:1000/api/v2/deleteTask/${id}`,
+                {
+                    data: { user: user },
+                }
+            );
+        }
     };
 
     const handleEdit = (todo) => {
@@ -152,7 +162,7 @@ export default function Todo() {
                                         <button
                                             className="action-button complete-button"
                                             onClick={() =>
-                                                handleComplete(todo.id)
+                                                handleComplete(todo._id)
                                             }
                                             title="Complete"
                                         >
