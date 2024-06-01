@@ -44,9 +44,7 @@ export default function Signup() {
                     pauseOnHover: false,
                 });
 
-                setTimeout(() => {
-                    history("/login");
-                }, 1000);
+                history("/login");
             } else {
                 toast.error(res.data.message);
             }
