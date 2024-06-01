@@ -4,7 +4,6 @@ import "./Todo.css"; // Import the corresponding CSS file
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-let user = sessionStorage.getItem("id");
 
 export default function Todo() {
     const [todos, setTodos] = useState([]);
@@ -13,21 +12,20 @@ export default function Todo() {
     const [isEditing, setIsEditing] = useState(false);
     const [currentTodo, setCurrentTodo] = useState(null);
 
-    useEffect(() => {
+    const fetchdata = async () => {
+        const user = sessionStorage.getItem("id");
         if (user) {
-            const fetch = async () => {
-                await axios
-                    .get(`http://192.168.1.7:1000/api/v2/getTasks/${user}`)
-                    .then((res) => {
-                        setTodos(res.data.lists);
-                    });
-            };
-            fetch();
+            await axios
+                .get(`http://192.168.1.7:1000/api/v2/getTasks/${user}`)
+                .then((res) => {
+                    setTodos(res.data.lists);
+                });
         }
-    });
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const user = sessionStorage.getItem("id");
         if (!title.trim()) {
             toast("Please fill the title", {
                 autoClose: 1500,
@@ -51,7 +49,6 @@ export default function Todo() {
             setIsEditing(false);
             setCurrentTodo(null);
         } else {
-            user = sessionStorage.getItem("id");
             if (user) {
                 await axios
                     .post("http://192.168.1.7:1000/api/v2/addTask", {
@@ -66,6 +63,7 @@ export default function Todo() {
                                 type: "success",
                                 pauseOnHover: false,
                             });
+                            fetchdata(); // Fetch updated data
                         }
                     });
             } else {
@@ -79,14 +77,14 @@ export default function Todo() {
                     type: "error",
                     pauseOnHover: false,
                 });
+                const newTodo = {
+                    id: Date.now(),
+                    title,
+                    body,
+                    completed: false,
+                };
+                setTodos([newTodo, ...todos]);
             }
-            const newTodo = {
-                id: Date.now(),
-                title,
-                body,
-                completed: false,
-            };
-            setTodos([...todos, newTodo]);
         }
 
         setTitle("");
@@ -103,6 +101,10 @@ export default function Todo() {
         setTitle(todo.title);
         setBody(todo.body);
     };
+
+    useEffect(() => {
+        fetchdata();
+    }, []);
 
     return (
         <div className="todo">
@@ -134,7 +136,7 @@ export default function Todo() {
                     <p className="no-todos">No todos yet. Add some todos!</p>
                 ) : (
                     <ul>
-                        {todos.map((todo,index) => (
+                        {todos.map((todo, index) => (
                             <li
                                 key={index}
                                 className={`todo-item ${
