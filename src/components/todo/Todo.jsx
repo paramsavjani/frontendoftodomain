@@ -16,7 +16,7 @@ export default function Todo() {
         const user = sessionStorage.getItem("id");
         if (user) {
             await axios
-                .get(`http://192.168.1.7:1000/api/v2/getTasks/${user}`)
+                .get(`https://todo-backend-param.onrender.com/api/v2/getTasks/${user}`)
                 .then((res) => {
                     setTodos(res.data.lists);
                 });
@@ -28,7 +28,7 @@ export default function Todo() {
         const user = sessionStorage.getItem("id");
         if (!title.trim()) {
             toast("Please fill the title", {
-                autoClose: 1500,
+                autoClose: 1000,
                 type: "error",
                 pauseOnHover: false,
             });
@@ -47,7 +47,7 @@ export default function Todo() {
             if (user) {
                 await axios
                     .put(
-                        `http://192.168.1.7:1000/api/v2/updateTask/${currentTodo._id}`,
+                        `https://todo-backend-param.onrender.com/api/v2/updateTask/${currentTodo._id}`,
                         { title, body, id: user }
                     )
                     .then((res) => {
@@ -66,7 +66,7 @@ export default function Todo() {
         } else {
             if (user) {
                 await axios
-                    .post("http://192.168.1.7:1000/api/v2/addTask", {
+                    .post("https://todo-backend-param.onrender.com/api/v2/addTask", {
                         title: title,
                         body: body,
                         id: user,
@@ -83,12 +83,12 @@ export default function Todo() {
                     });
             } else {
                 toast("Todo added Successfully", {
-                    autoClose: 1800,
+                    autoClose: 1500,
                     type: "success",
                     pauseOnHover: false,
                 });
                 toast("Your task is not saved! Please LogIn", {
-                    autoClose: 1800,
+                    autoClose: 1500,
                     type: "error",
                     pauseOnHover: false,
                 });
@@ -110,7 +110,7 @@ export default function Todo() {
         const user = sessionStorage.getItem("id");
         if (user) {
             await axios.delete(
-                `http://192.168.1.7:1000/api/v2/deleteTask/${id}`,
+                `https://todo-backend-param.onrender.com/api/v2/deleteTask/${id}`,
                 {
                     data: { user: user },
                 }

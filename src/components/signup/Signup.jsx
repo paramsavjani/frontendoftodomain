@@ -32,13 +32,13 @@ export default function Signup() {
 
         try {
             const res = await axios.post(
-                "http://192.168.1.7:1000/api/v1/register",
+                "https://todo-backend-param.onrender.com/api/v1/register",
                 input
             );
 
             if (res.status === 200) {
                 toast.success(res.data.message, {
-                    autoClose: 2000,
+                    autoClose: 1000,
                     position: "top-right",
                     type: "success",
                     pauseOnHover: false,
@@ -46,7 +46,7 @@ export default function Signup() {
 
                 setTimeout(() => {
                     history("/login");
-                }, 2000);
+                }, 1000);
             } else {
                 toast.error(res.data.message);
             }
@@ -60,7 +60,6 @@ export default function Signup() {
             toast.error("An error occurred. Please try again.");
         }
     };
-
 
     return (
         <div className="signup">

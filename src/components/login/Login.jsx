@@ -9,7 +9,7 @@ import { authActions } from "../../store/index";
 import { useDispatch } from "react-redux";
 
 export default function Login() {
-    const dispatch = useDispatch(); 
+    const dispatch = useDispatch();
     const history = useNavigate();
     const [input, setInput] = useState({
         email: "",
@@ -31,30 +31,21 @@ export default function Login() {
 
         try {
             const res = await axios.post(
-                "http://192.168.1.7:1000/api/v1/signin",
+                "https://todo-backend-param.onrender.com/api/v1/signin",
                 input
             );
 
             if (res.status === 200) {
-               toast.success(res.data.message, {
-                   autoClose: 1000,
-                   position: "top-right",
-                   type: "success",
-                   pauseOnHover: false,
-               });
-               sessionStorage.setItem("id", res.data.others._id);
-               dispatch(authActions.login());
-               setTimeout(() => {
-                   history("/todo");
-               }, 2000);
-
+                sessionStorage.setItem("id", res.data.others._id);
+                dispatch(authActions.login());
+                history("/todo");
             } else {
                 toast.error(res.data.message);
             }
 
             setInput({
                 email: "",
-                password: ""
+                password: "",
             });
         } catch (error) {
             toast.error("An error occurred. Please try again.");
