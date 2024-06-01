@@ -36,11 +36,6 @@ export default function Todo() {
         }
 
         if (isEditing) {
-            toast("Todo updated Successfully", {
-                autoClose: 1000,
-                type: "success",
-                pauseOnHover: false,
-            });
             setTodos(
                 todos.map((todo) =>
                     todo._id === currentTodo._id
@@ -48,6 +43,24 @@ export default function Todo() {
                         : todo
                 )
             );
+            const user = sessionStorage.getItem("id");
+            if (user) {
+                await axios
+                    .put(
+                        `http://192.168.1.7:1000/api/v2/updateTask/${currentTodo._id}`,
+                        { title, body, id: user }
+                    )
+                    .then((res) => {
+                        if (res.status === 200) {
+                            fetchdata(); // Fetch updated data
+                            toast("Todo updated Successfully", {
+                                autoClose: 1000,
+                                type: "success",
+                                pauseOnHover: false,
+                            });
+                        }
+                    });
+            }
             setIsEditing(false);
             setCurrentTodo(null);
         } else {
