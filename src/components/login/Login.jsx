@@ -13,8 +13,8 @@ export default function Login() {
     const dispatch = useDispatch();
     const history = useNavigate();
     const [input, setInput] = useState({
-        email: `${sessionStorage.getItem("email")}`,
-        password: `${sessionStorage.getItem("password")}`,
+        email: sessionStorage.getItem("email") ? `${sessionStorage.getItem("email")}` : "",
+        password: sessionStorage.getItem("password") ? `${sessionStorage.getItem("password")}` : "",
     });
     sessionStorage.removeItem("email");
     sessionStorage.removeItem("password");
