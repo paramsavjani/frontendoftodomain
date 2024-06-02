@@ -65,7 +65,6 @@ export default function Signup() {
             <ToastContainer />
             <div className="content1">
                 <h2>Sign Up</h2>
-                {/* Input fields for signup form */}
                 <div className="form">
                     <input
                         onChange={change}
