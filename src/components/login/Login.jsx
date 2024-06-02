@@ -1,4 +1,4 @@
-import React from "react";
+import React  from "react";
 import "../signup/Signup.css";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -7,14 +7,17 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { authActions } from "../../store/index";
 import { useDispatch } from "react-redux";
+import "../signup/Signup.jsx";
 
 export default function Login() {
     const dispatch = useDispatch();
     const history = useNavigate();
     const [input, setInput] = useState({
-        email: "",
-        password: "",
+        email: `${sessionStorage.getItem("email")}`,
+        password: `${sessionStorage.getItem("password")}`,
     });
+    sessionStorage.removeItem("email");
+    sessionStorage.removeItem("password");
 
     const change = (e) => {
         const { name, value } = e.target;

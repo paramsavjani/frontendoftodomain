@@ -43,7 +43,8 @@ export default function Signup() {
                     type: "success",
                     pauseOnHover: false,
                 });
-
+                sessionStorage.setItem("email", input.email);
+                sessionStorage.setItem("password", input.password);
                 history("/login");
             } else {
                 toast.error(res.data.message);
