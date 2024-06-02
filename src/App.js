@@ -1,33 +1,35 @@
-import Navbar from "./components/navbar/Navbar";
-import Home from "./components/home/Home";
-import Signup from "./components/signup/Signup";
-import Login from "./components/login/Login";
-import Todo from "./components/todo/Todo";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { authActions } from "./store/index";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import React, { useEffect, Suspense, lazy } from 'react';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { authActions } from './store/index';
+import Navbar from './components/navbar/Navbar';
+
+const Home = lazy(() => import('./components/home/Home'));
+const Signup = lazy(() => import('./components/signup/Signup'));
+const Login = lazy(() => import('./components/login/Login'));
+const Todo = lazy(() => import('./components/todo/Todo'));
 
 function App() {
   const dispatch = useDispatch();
+
   useEffect(() => {
-    if (sessionStorage.getItem("id")) {
+    if (sessionStorage.getItem('id')) {
       dispatch(authActions.login());
     }
-  }
-  );
+  }, [dispatch]);
+
   return (
-    <>
-      <Router>
-        <Navbar />
+    <Router>
+      <Navbar />
+      <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/todo" element={<Todo />} />
         </Routes>
-      </Router>
-    </>
+      </Suspense>
+    </Router>
   );
 }
 
