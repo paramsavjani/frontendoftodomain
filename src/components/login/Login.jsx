@@ -1,4 +1,4 @@
-import React  from "react";
+import React from "react";
 import "../signup/Signup.css";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -13,8 +13,12 @@ export default function Login() {
     const dispatch = useDispatch();
     const history = useNavigate();
     const [input, setInput] = useState({
-        email: sessionStorage.getItem("email") ? `${sessionStorage.getItem("email")}` : "",
-        password: sessionStorage.getItem("password") ? `${sessionStorage.getItem("password")}` : "",
+        email: sessionStorage.getItem("email")
+            ? `${sessionStorage.getItem("email")}`
+            : "",
+        password: sessionStorage.getItem("password")
+            ? `${sessionStorage.getItem("password")}`
+            : "",
     });
     sessionStorage.removeItem("email");
     sessionStorage.removeItem("password");
