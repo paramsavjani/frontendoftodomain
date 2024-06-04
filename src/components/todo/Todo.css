@@ -1,4 +1,47 @@
 @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&family=Roboto:wght@400;700&display=swap');
+/* Loader styling */
+.loader {
+    border: 4px solid #f3f3f3;
+    /* Light grey */
+    border-top: 4px solid #ff6b6b;
+    /* Red color */
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+}
+
+/* Keyframes for spinner animation */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Button loading state */
+.make-todo-button.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.make-todo-button.loading span {
+    margin-left: 8px;
+}
+
+/* Hover effect */
+.make-todo-button:not(.loading):hover {
+    background-color: #fff;
+    color: #ff6b6b;
+    transform: scale(1.1);
+}
 
 /* Main container styling */
 .todo {
@@ -48,7 +91,6 @@
     resize: both;
 }
 
-
 @media (max-width: 768px) {
 
     .add-todo input,
@@ -57,7 +99,6 @@
         max-width: 700px;
     }
 }
-
 
 .make-todo-button {
     background-color: #ff6b6b;
@@ -71,12 +112,6 @@
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s, transform 0.3s;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.make-todo-button:hover {
-    background-color: #fff;
-    color: #ff6b6b;
-    transform: scale(1.1);
 }
 
 /* Todo list styling */

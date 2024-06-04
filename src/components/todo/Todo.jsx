@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { AiOutlineCheckCircle, AiOutlineEdit } from "react-icons/ai"; // Import icons
-import "./Todo.css"; // Import the corresponding CSS file
+import { AiOutlineCheckCircle, AiOutlineEdit } from "react-icons/ai";
+import "./Todo.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
@@ -11,6 +11,7 @@ export default function Todo() {
     const [body, setBody] = useState("");
     const [isEditing, setIsEditing] = useState(false);
     const [currentTodo, setCurrentTodo] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     let isready = true;
 
     const fetchdata = async () => {
@@ -39,6 +40,9 @@ export default function Todo() {
                 return;
             }
 
+            setIsLoading(true);
+            isready = false;
+
             if (isEditing) {
                 setTodos(
                     todos.map((todo) =>
@@ -47,9 +51,7 @@ export default function Todo() {
                             : todo
                     )
                 );
-                const user = sessionStorage.getItem("id");
                 if (user) {
-                    isready = false;
                     await axios
                         .put(
                             `https://todo-backend-param.onrender.com/api/v2/updateTask/${currentTodo._id}`,
@@ -57,7 +59,7 @@ export default function Todo() {
                         )
                         .then((res) => {
                             if (res.status === 200) {
-                                fetchdata(); // Fetch updated data
+                                fetchdata();
                                 toast("Todo updated Successfully", {
                                     autoClose: 1000,
                                     type: "success",
@@ -71,15 +73,10 @@ export default function Todo() {
                 setCurrentTodo(null);
             } else {
                 if (user) {
-                    isready = false;
                     await axios
                         .post(
                             "https://todo-backend-param.onrender.com/api/v2/addTask",
-                            {
-                                title: title,
-                                body: body,
-                                id: user,
-                            }
+                            { title: title, body: body, id: user }
                         )
                         .then((res) => {
                             if (res.status === 200) {
@@ -88,9 +85,8 @@ export default function Todo() {
                                     type: "success",
                                     pauseOnHover: false,
                                 });
-                                fetchdata(); // Fetch updated data
+                                fetchdata();
                             }
-                            isready = true;
                         });
                 } else {
                     toast("Todo added Successfully", {
@@ -111,9 +107,10 @@ export default function Todo() {
                     setTodos([newTodo, ...todos]);
                 }
             }
-
+            isready = true;
             setTitle("");
             setBody("");
+            setIsLoading(false);
         }
     };
 
@@ -123,9 +120,7 @@ export default function Todo() {
         if (user) {
             await axios.delete(
                 `https://todo-backend-param.onrender.com/api/v2/deleteTask/${id}`,
-                {
-                    data: { user: user },
-                }
+                { data: { user: user } }
             );
         }
     };
@@ -160,8 +155,26 @@ export default function Todo() {
                         value={body}
                         onChange={(e) => setBody(e.target.value)}
                     ></textarea>
-                    <button type="submit" className="make-todo-button">
-                        {isEditing ? "Update Todo" : "Add Todo"}
+                    <button
+                        type="submit"
+                        className={`make-todo-button ${
+                            isLoading ? "loading" : ""
+                        }`}
+                    >
+                        {isLoading ? (
+                            <>
+                                <div className="loader"></div>
+                                <span>
+                                    {isEditing
+                                        ? "Updating Todo"
+                                        : "Adding Todo"}
+                                </span>
+                            </>
+                        ) : isEditing ? (
+                            "Update Todo"
+                        ) : (
+                            "Add Todo"
+                        )}
                     </button>
                 </form>
             </div>
