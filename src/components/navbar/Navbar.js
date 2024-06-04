@@ -3,6 +3,7 @@ import { AiOutlineSchedule } from "react-icons/ai";
 import "./Navbar.css";
 import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "../../store/index";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
     const dispatch = useDispatch();
@@ -43,15 +44,15 @@ export default function Navbar() {
                 </div>
                 <div className="menu-icon" onClick={toggleMenu}>&#9776;</div>
                 <div className={`nav-links ${isMenuOpen ? 'open' : 'closing'}`}>
-                    <a href="/" onClick={handleButtonClick}>Home</a>
-                    <a href="/todo" onClick={handleButtonClick}>Todo</a>
+                    <Link to="/" onClick={handleButtonClick}>Home</Link>
+                    <Link to="/todo" onClick={handleButtonClick}>Todo</Link>
                     {!isLoggedin &&
                         <>
-                            <a href="/signup" onClick={handleButtonClick} className="btn-signup">Sign Up</a>
-                            <a href="/login" onClick={handleButtonClick} className="btn-login">Log In</a>
+                            <Link to="/signup" onClick={handleButtonClick} className="btn-signup">Sign Up</Link>
+                            <Link to="/login" onClick={handleButtonClick} className="btn-login">Log In</Link>
                         </>
                     }
-                    {isLoggedin && <a href="/" onClick={logout} className="btn-logout">Log Out</a>}
+                    {isLoggedin && <Link to="/" onClick={logout} className="btn-logout">Log Out</Link>}
                 </div>
             </div>
             {isMenuOpen && <div className="overlay" onClick={toggleMenu}></div>}

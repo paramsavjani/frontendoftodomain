@@ -15,7 +15,6 @@ function App() {
   useEffect(() => {
     if (sessionStorage.getItem('id')) {
       dispatch(authActions.login());
-    
     }
   }, [dispatch]);
 
