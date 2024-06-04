@@ -66,7 +66,6 @@ export default function Todo() {
                                     pauseOnHover: false,
                                 });
                             }
-                            isready = true;
                         });
                 }
                 setIsEditing(false);
@@ -86,6 +85,15 @@ export default function Todo() {
                                     pauseOnHover: false,
                                 });
                                 fetchdata();
+                            } else {
+                                toast(
+                                    "Something went wrong! Please try again",
+                                    {
+                                        autoClose: 1000,
+                                        type: "error",
+                                        pauseOnHover: false,
+                                    }
+                                );
                             }
                         });
                 } else {
@@ -136,6 +144,19 @@ export default function Todo() {
         fetchdata();
     }, []);
 
+    const addHover = (event) => {
+        const button = event.target;
+        if (button) {
+            button.classList.add("hover");
+        }
+    };
+    const removeHover = (event) => {
+        const button = event.target;
+        if (button) {
+            button.classList.remove("hover");
+        }
+    };
+
     return (
         <div className="todo">
             <ToastContainer />
@@ -160,6 +181,9 @@ export default function Todo() {
                         className={`make-todo-button ${
                             isLoading ? "loading" : ""
                         }`}
+                        id="adding-and-upadting-todo"
+                        onMouseEnter={addHover}
+                        onMouseLeave={removeHover}
                     >
                         {isLoading ? (
                             <>
