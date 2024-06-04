@@ -1,15 +1,15 @@
 name: Keep Alive
 
 on:
-    schedule:
-        # Runs every 15 minutes
-        - cron: "*/1 * * * *"
+  schedule:
+    # Runs every 15 minutes
+    - cron: '*/1 * * * *'
 
 jobs:
-    keep-alive-job:
-        runs-on: ubuntu-latest
+  keep-alive-job:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Send request to keep the website alive
-              run: |
-                  curl -X GET http://todo-by-param.onrender.com
+    steps:
+      - name: Send request to keep the website alive
+        run: |
+          curl -X GET http://todo-by-param.onrender.com/
