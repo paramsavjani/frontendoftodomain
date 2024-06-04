@@ -11,12 +11,16 @@ export default function Todo() {
     const [body, setBody] = useState("");
     const [isEditing, setIsEditing] = useState(false);
     const [currentTodo, setCurrentTodo] = useState(null);
+    // const [isready, setIsReady] = useState(true);
+    let isready = true;
 
     const fetchdata = async () => {
         const user = sessionStorage.getItem("id");
         if (user) {
             await axios
-                .get(`https://todo-backend-param.onrender.com/api/v2/getTasks/${user}`)
+                .get(
+                    `https://todo-backend-param.onrender.com/api/v2/getTasks/${user}`
+                )
                 .then((res) => {
                     setTodos(res.data.lists);
                 });
@@ -25,84 +29,93 @@ export default function Todo() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const user = sessionStorage.getItem("id");
-        if (!title.trim()) {
-            toast("Please fill the title", {
-                autoClose: 1000,
-                type: "error",
-                pauseOnHover: false,
-            });
-            return;
-        }
-
-        if (isEditing) {
-            setTodos(
-                todos.map((todo) =>
-                    todo._id === currentTodo._id
-                        ? { ...todo, title, body }
-                        : todo
-                )
-            );
+        if (isready) {
             const user = sessionStorage.getItem("id");
-            if (user) {
-                await axios
-                    .put(
-                        `https://todo-backend-param.onrender.com/api/v2/updateTask/${currentTodo._id}`,
-                        { title, body, id: user }
-                    )
-                    .then((res) => {
-                        if (res.status === 200) {
-                            fetchdata(); // Fetch updated data
-                            toast("Todo updated Successfully", {
-                                autoClose: 1000,
-                                type: "success",
-                                pauseOnHover: false,
-                            });
-                        }
-                    });
-            }
-            setIsEditing(false);
-            setCurrentTodo(null);
-        } else {
-            if (user) {
-                await axios
-                    .post("https://todo-backend-param.onrender.com/api/v2/addTask", {
-                        title: title,
-                        body: body,
-                        id: user,
-                    })
-                    .then((res) => {
-                        if (res.status === 200) {
-                            toast("Todo added Successfully", {
-                                autoClose: 1000,
-                                type: "success",
-                                pauseOnHover: false,
-                            });
-                            fetchdata(); // Fetch updated data
-                        }
-                    });
-            } else {
-                toast("Todo added Successfully", {
-                    autoClose: 1500,
-                    type: "success",
-                    pauseOnHover: false,
-                });
-                toast("Your task is not saved! Please LogIn", {
-                    autoClose: 1500,
+            if (!title.trim()) {
+                toast("Please fill the title", {
+                    autoClose: 1000,
                     type: "error",
                     pauseOnHover: false,
                 });
-                const newTodo = {
-                    _id: Date.now(),
-                    title: title,
-                    body: body,
-                };
-                setTodos([newTodo, ...todos]);
+                return;
             }
-        }
 
-        setTitle("");
-        setBody("");
+            if (isEditing) {
+                setTodos(
+                    todos.map((todo) =>
+                        todo._id === currentTodo._id
+                            ? { ...todo, title, body }
+                            : todo
+                    )
+                );
+                const user = sessionStorage.getItem("id");
+                if (user) {
+                    isready = false;
+                    await axios
+                        .put(
+                            `https://todo-backend-param.onrender.com/api/v2/updateTask/${currentTodo._id}`,
+                            { title, body, id: user }
+                        )
+                        .then((res) => {
+                            if (res.status === 200) {
+                                fetchdata(); // Fetch updated data
+                                toast("Todo updated Successfully", {
+                                    autoClose: 1000,
+                                    type: "success",
+                                    pauseOnHover: false,
+                                });
+                            }
+                            isready = true;
+                        });
+                }
+                setIsEditing(false);
+                setCurrentTodo(null);
+            } else {
+                if (user) {
+                    isready = false;
+                    await axios
+                        .post(
+                            "https://todo-backend-param.onrender.com/api/v2/addTask",
+                            {
+                                title: title,
+                                body: body,
+                                id: user,
+                            }
+                        )
+                        .then((res) => {
+                            if (res.status === 200) {
+                                toast("Todo added Successfully", {
+                                    autoClose: 1000,
+                                    type: "success",
+                                    pauseOnHover: false,
+                                });
+                                fetchdata(); // Fetch updated data
+                            }
+                            isready = true;
+                        });
+                } else {
+                    toast("Todo added Successfully", {
+                        autoClose: 1500,
+                        type: "success",
+                        pauseOnHover: false,
+                    });
+                    toast("Your task is not saved! Please LogIn", {
+                        autoClose: 1500,
+                        type: "error",
+                        pauseOnHover: false,
+                    });
+                    const newTodo = {
+                        _id: Date.now(),
+                        title: title,
+                        body: body,
+                    };
+                    setTodos([newTodo, ...todos]);
+                }
+            }
+
+            setTitle("");
+            setBody("");
+        }
     };
 
     const handleComplete = async (id) => {
