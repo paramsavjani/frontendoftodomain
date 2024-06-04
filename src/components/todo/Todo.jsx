@@ -11,7 +11,6 @@ export default function Todo() {
     const [body, setBody] = useState("");
     const [isEditing, setIsEditing] = useState(false);
     const [currentTodo, setCurrentTodo] = useState(null);
-    // const [isready, setIsReady] = useState(true);
     let isready = true;
 
     const fetchdata = async () => {
