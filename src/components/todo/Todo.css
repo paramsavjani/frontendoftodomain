@@ -158,12 +158,14 @@
     justify-content: space-between;
     align-items: center;
     background-color: #fff;
-    padding: 20px;
-    margin-bottom: 15px;
+    padding: 18px;
+    margin-bottom: 17px;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s;
     animation: fadeIn 0.5s ease-in-out;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 
 .todo-item:hover {
@@ -183,7 +185,7 @@
 }
 
 .todo-details h3 {
-    font-size: 20px;
+    font-size: 22px;
     margin: 0;
     color: #333;
     font-family: 'Montserrat', sans-serif;
@@ -205,6 +207,7 @@
     background: none;
     border: none;
     cursor: pointer;
+    padding: 0px;
     font-size: 24px;
     transition: color 0.3s, transform 0.3s;
 }

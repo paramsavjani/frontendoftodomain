@@ -232,8 +232,8 @@ export default function Todo() {
                                                 trigger="hover"
                                                 stroke="bold"
                                                 style={{
-                                                    width: "30px",
-                                                    height: "30px",
+                                                    width: "35px",
+                                                    height: "35px",
                                                 }}
                                             ></lord-icon>
                                         </button>
@@ -247,8 +247,8 @@ export default function Todo() {
                                                 trigger="hover"
                                                 stroke="bold"
                                                 style={{
-                                                    width: "30px",
-                                                    height: "30px",
+                                                    width: "35px",
+                                                    height: "35px",
                                                 }}
                                             ></lord-icon>
                                         </button>
