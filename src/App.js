@@ -18,7 +18,7 @@ function App() {
     }
   }, [dispatch]);
 
-  fetch("https://todo-backend-param.onrender.com").then((res) => res.text()).then((data) => console.log(data)).catch((err) => console.log(err));
+  // fetch("https://todo-backend-param.onrender.com").then((res) => res.text()).then((data) => console.log(data)).catch((err) => console.log(err));
 
   return (
     <Router>
