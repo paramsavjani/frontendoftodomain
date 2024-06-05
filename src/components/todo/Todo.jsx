@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { AiOutlineCheckCircle, AiOutlineEdit } from "react-icons/ai";
 import "./Todo.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -227,14 +226,31 @@ export default function Todo() {
                                             }
                                             title="Complete"
                                         >
-                                            <AiOutlineCheckCircle />
+                                            {/* <AiOutlineCheckCircle /> */}
+                                            <lord-icon
+                                                src="https://cdn.lordicon.com/dangivhk.json"
+                                                trigger="hover"
+                                                stroke="bold"
+                                                style={{
+                                                    width: "30px",
+                                                    height: "30px",
+                                                }}
+                                            ></lord-icon>
                                         </button>
                                         <button
                                             className="action-button update-button"
                                             onClick={() => handleEdit(todo)}
                                             title="Edit"
                                         >
-                                            <AiOutlineEdit />
+                                            <lord-icon
+                                                src="https://cdn.lordicon.com/lsrcesku.json"
+                                                trigger="hover"
+                                                stroke="bold"
+                                                style={{
+                                                    width: "30px",
+                                                    height: "30px",
+                                                }}
+                                            ></lord-icon>
                                         </button>
                                     </div>
                                 </div>
