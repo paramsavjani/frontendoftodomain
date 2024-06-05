@@ -22,6 +22,7 @@ export default function Login() {
     });
     sessionStorage.removeItem("email");
     sessionStorage.removeItem("password");
+    const [isLoading, setIsLoading] = useState(false);
 
     const change = (e) => {
         const { name, value } = e.target;
@@ -30,12 +31,13 @@ export default function Login() {
 
     const submit = async (e) => {
         e.preventDefault();
-
+        
         if (input.email === "" || input.password === "") {
             toast.error("Please fill all the fields");
             return;
         }
-
+        
+        setIsLoading(true);
         try {
             const res = await axios.post(
                 "https://todo-backend-param.onrender.com/api/v1/signin",
@@ -56,6 +58,22 @@ export default function Login() {
             });
         } catch (error) {
             toast.error("An error occurred. Please try again.");
+        }
+        finally{
+            setIsLoading(false);
+        }
+    };
+
+    const addHover = (event) => {
+        const button = event.target;
+        if (button) {
+            button.classList.add("hover");
+        }
+    };
+    const removeHover = (event) => {
+        const button = event.target;
+        if (button) {
+            button.classList.remove("hover");
         }
     };
 
@@ -79,8 +97,21 @@ export default function Login() {
                         placeholder="Password"
                         value={input.password}
                     />
-                    <button onClick={submit} type="submit">
-                        Login
+                    <button
+                        onClick={submit}
+                        onMouseEnter={addHover}
+                        onMouseLeave={removeHover}
+                        type="submit"
+                        className={`${isLoading ? "loading" : ""}`}
+                    >
+                        {isLoading ? (
+                            <>
+                                <div className="loader"></div>
+                                <span>Logging In...</span>
+                            </>
+                        ) : (
+                            "Login"
+                        )}
                     </button>
                 </form>
             </div>
