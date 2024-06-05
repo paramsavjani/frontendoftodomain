@@ -29,18 +29,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #cccccc;
+    background-color: #873737;
     cursor: not-allowed;
 }
 
 .make-todo-button.loading span {
     margin-left: 8px;
 }
+
 .make-todo-button.hover:not(.loading) {
     background-color: #fff;
     color: #ff6b6b;
     transform: scale(1.1);
 }
+
 /* 
 .hover {
     background-color: #fff;
