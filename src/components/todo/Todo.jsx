@@ -181,7 +181,6 @@ export default function Todo() {
                         className={`make-todo-button ${
                             isLoading ? "loading" : ""
                         }`}
-                        id="adding-and-upadting-todo"
                         onMouseEnter={addHover}
                         onMouseLeave={removeHover}
                     >

@@ -1,4 +1,3 @@
-
 .signup {
     background: linear-gradient(to bottom, #ff6b6b, #f94d6a, #f37d4c, #f2af28);
     font-family: 'Roboto', sans-serif;
@@ -34,6 +33,7 @@
     display: flex;
     flex-direction: column;
 }
+
 form {
     display: flex;
     flex-direction: column;
@@ -50,16 +50,54 @@ input[type="password"] {
 }
 
 button {
-    background-color: #ff6b6b;
-    color: white;
-    padding: 15px;
+    background-color: hwb(0 42% 0%);
+    color: #fff;
+    font-variant: small-caps;
+    padding: 6px 20px;
+    font-size: 22px;
     border: none;
-    border-radius: 5px;
-    font-size: 16px;
+    border-radius: 7px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
 }
 
-button:hover {
-    background-color: #f94d6a;
+.hover {
+    background-color: hwb(0 35% 0%);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    /* color: #ff6b6b; */
+    transform: scale(1.01);
+}
+
+
+
+.loader {
+    border: 4px solid #f3f3f3;
+    /* Light grey */
+    border-top: 4px solid #ff6b6b;
+    /* Red color */
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+}
+
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #873737;
+    cursor: not-allowed;
+}
+
+
+/* Keyframes for spinner animation */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

@@ -12,6 +12,7 @@ export default function Signup() {
         username: "",
         password: "",
     });
+    const [isLoading, setIsLoading] = useState(false);
 
     const change = (e) => {
         const { name, value } = e.target;
@@ -29,6 +30,7 @@ export default function Signup() {
             toast.error("Please fill all the fields");
             return;
         }
+        setIsLoading(true);
 
         try {
             const res = await axios.post(
@@ -57,6 +59,21 @@ export default function Signup() {
             });
         } catch (error) {
             toast.error("An error occurred. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const addHover = (event) => {
+        const button = event.target;
+        if (button) {
+            button.classList.add("hover");
+        }
+    };
+    const removeHover = (event) => {
+        const button = event.target;
+        if (button) {
+            button.classList.remove("hover");
         }
     };
 
@@ -87,8 +104,21 @@ export default function Signup() {
                         placeholder="Password"
                         value={input.password}
                     />
-                    <button onClick={submit} type="submit">
-                        Sign Up
+                    <button
+                        onClick={submit}
+                        onMouseEnter={addHover}
+                        onMouseLeave={removeHover}
+                        type="submit"
+                        className={`${isLoading ? "loading" : ""}`}
+                    >
+                        {isLoading ? (
+                            <>
+                                <div className="loader"></div>
+                                <span>Signing Up...</span>
+                            </>
+                        ) : (
+                            "Sign Up"
+                        )}
                     </button>
                 </div>
             </div>

@@ -60,7 +60,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.make-todo-button:hover {
+.make-todo-button-home:hover {
     background-color: #f94d6a;
     color: white;
     transform: translateY(-2px);
