@@ -6,6 +6,9 @@ import { useNavigate } from "react-router-dom";
 
 export default function Home() {
     const history = useNavigate();
+    if(localStorage.getItem('id')){
+        history("/todo");
+    }
     return (
         <div className="home">
             <div className=""></div>
