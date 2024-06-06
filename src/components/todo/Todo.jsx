@@ -11,9 +11,9 @@ export default function Todo() {
     const [isEditing, setIsEditing] = useState(false);
     const [currentTodo, setCurrentTodo] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    let isready = true;
-    const iconRef1 = useRef(null);
-    const iconRef2 = useRef(null);
+    const [isReady, setIsReady] = useState(true);
+    const iconRefs1 = useRef([]);
+    const iconRefs2 = useRef([]);
 
     const fetchdata = async () => {
         const user = sessionStorage.getItem("id");
@@ -30,7 +30,7 @@ export default function Todo() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (isready) {
+        if (isReady) {
             const user = sessionStorage.getItem("id");
             if (!title.trim()) {
                 toast("Please fill the title", {
@@ -42,7 +42,7 @@ export default function Todo() {
             }
 
             setIsLoading(true);
-            isready = false;
+            setIsReady(false);
 
             if (isEditing) {
                 setTodos(
@@ -116,7 +116,7 @@ export default function Todo() {
                     setTodos([newTodo, ...todos]);
                 }
             }
-            isready = true;
+            setIsReady(true);
             setTitle("");
             setBody("");
             setIsLoading(false);
@@ -158,21 +158,21 @@ export default function Todo() {
         }
     };
 
-    const handleMouseEnter = () => {
-        if (iconRef1.current) {
-            iconRef1.current.setAttribute("trigger", "loop");
+    const handleMouseEnter = (index) => {
+        if (iconRefs1.current[index]) {
+            iconRefs1.current[index].setAttribute("trigger", "loop");
         }
-        if (iconRef2.current) {
-            iconRef2.current.setAttribute("trigger", "loop");
+        if (iconRefs2.current[index]) {
+            iconRefs2.current[index].setAttribute("trigger", "loop");
         }
     };
 
-    const handleMouseLeave = () => {
-        if (iconRef1.current) {
-            iconRef1.current.setAttribute("trigger", "morph");
+    const handleMouseLeave = (index) => {
+        if (iconRefs1.current[index]) {
+            iconRefs1.current[index].setAttribute("trigger", "morph");
         }
-        if (iconRef2.current) {
-            iconRef2.current.setAttribute("trigger", "morph");
+        if (iconRefs2.current[index]) {
+            iconRefs2.current[index].setAttribute("trigger", "morph");
         }
     };
 
@@ -228,15 +228,15 @@ export default function Todo() {
                     <ul>
                         {todos.map((todo, index) => (
                             <li
-                                key={index}
+                                key={todo._id}
                                 className={`todo-item ${
                                     todo.completed ? "completed" : ""
                                 }`}
                             >
                                 <div
                                     className="todo-content"
-                                    onMouseEnter={handleMouseEnter}
-                                    onMouseLeave={handleMouseLeave}
+                                    onMouseEnter={() => handleMouseEnter(index)}
+                                    onMouseLeave={() => handleMouseLeave(index)}
                                 >
                                     <div className="todo-details">
                                         <h3>{todo.title}</h3>
@@ -258,7 +258,10 @@ export default function Todo() {
                                                     width: "35px",
                                                     height: "35px",
                                                 }}
-                                                ref={iconRef1}
+                                                ref={(el) =>
+                                                    (iconRefs1.current[index] =
+                                                        el)
+                                                }
                                             ></lord-icon>
                                         </button>
                                         <button
@@ -274,7 +277,10 @@ export default function Todo() {
                                                     width: "35px",
                                                     height: "35px",
                                                 }}
-                                                ref={iconRef2}
+                                                ref={(el) =>
+                                                    (iconRefs2.current[index] =
+                                                        el)
+                                                }
                                             ></lord-icon>
                                         </button>
                                     </div>
