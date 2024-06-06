@@ -8,7 +8,7 @@ const authSlice = createSlice({
             state.isLoggedin = true;
         },
         logout: (state) => {
-            state.isAuthenticated = false;
+            state.isLoggedin = false;
         },
     },
 });
