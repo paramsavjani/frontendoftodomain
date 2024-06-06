@@ -37,7 +37,6 @@ export default function Home() {
                         got you covered.
                     </p>
                 </div>
-                {/* <div className="center-button-container"> */}
                 <button
                     className="make-todo-button-home"
                     onClick={() => history("/signup")}
@@ -45,7 +44,6 @@ export default function Home() {
                     Get Started
                 </button>
             </div>
-            {/* </div> */}
         </div>
     );
 }
