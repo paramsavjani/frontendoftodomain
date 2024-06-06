@@ -24,7 +24,7 @@ export default function Navbar() {
 
     function logout() {
         handleButtonClick();
-        sessionStorage.removeItem("id");
+        localStorage.removeItem("id");
         dispatch(authActions.logout());
     }
 

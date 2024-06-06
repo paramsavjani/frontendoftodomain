@@ -13,15 +13,15 @@ export default function Login() {
     const dispatch = useDispatch();
     const history = useNavigate();
     const [input, setInput] = useState({
-        email: sessionStorage.getItem("email")
-            ? `${sessionStorage.getItem("email")}`
+        email: localStorage.getItem("email")
+            ? `${localStorage.getItem("email")}`
             : "",
-        password: sessionStorage.getItem("password")
-            ? `${sessionStorage.getItem("password")}`
+        password: localStorage.getItem("password")
+            ? `${localStorage.getItem("password")}`
             : "",
     });
-    sessionStorage.removeItem("email");
-    sessionStorage.removeItem("password");
+    localStorage.removeItem("email");
+    localStorage.removeItem("password");
     const [isLoading, setIsLoading] = useState(false);
 
     const change = (e) => {
@@ -45,7 +45,7 @@ export default function Login() {
             );
 
             if (res.status === 200) {
-                sessionStorage.setItem("id", res.data.others._id);
+                localStorage.setItem("id", res.data.others._id);
                 dispatch(authActions.login());
                 history("/todo");
             } else {

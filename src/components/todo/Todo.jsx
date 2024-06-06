@@ -16,7 +16,7 @@ export default function Todo() {
     const iconRefs2 = useRef([]);
 
     const fetchdata = async () => {
-        const user = sessionStorage.getItem("id");
+        const user = localStorage.getItem("id");
         if (user) {
             await axios
                 .get(
@@ -31,7 +31,7 @@ export default function Todo() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (isReady) {
-            const user = sessionStorage.getItem("id");
+            const user = localStorage.getItem("id");
             if (!title.trim()) {
                 toast("Please fill the title", {
                     autoClose: 1000,
@@ -125,7 +125,7 @@ export default function Todo() {
 
     const handleComplete = async (id) => {
         setTodos(todos.filter((todo) => todo._id !== id));
-        const user = sessionStorage.getItem("id");
+        const user = localStorage.getItem("id");
         if (user) {
             await axios.delete(
                 `https://todo-backend-param.onrender.com/api/v2/deleteTask/${id}`,

@@ -13,7 +13,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (sessionStorage.getItem('id')) {
+    if (localStorage.getItem('id')) {
       dispatch(authActions.login());
     }
   }, [dispatch]);
