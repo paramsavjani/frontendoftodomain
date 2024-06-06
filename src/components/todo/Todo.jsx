@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import "./Todo.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,6 +12,8 @@ export default function Todo() {
     const [currentTodo, setCurrentTodo] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     let isready = true;
+    const iconRef1 = useRef(null);
+    const iconRef2 = useRef(null);
 
     const fetchdata = async () => {
         const user = sessionStorage.getItem("id");
@@ -156,6 +158,24 @@ export default function Todo() {
         }
     };
 
+    const handleMouseEnter = () => {
+        if (iconRef1.current) {
+            iconRef1.current.setAttribute("trigger", "loop");
+        }
+        if (iconRef2.current) {
+            iconRef2.current.setAttribute("trigger", "loop");
+        }
+    };
+
+    const handleMouseLeave = () => {
+        if (iconRef1.current) {
+            iconRef1.current.setAttribute("trigger", "morph");
+        }
+        if (iconRef2.current) {
+            iconRef2.current.setAttribute("trigger", "morph");
+        }
+    };
+
     return (
         <div className="todo">
             <ToastContainer />
@@ -213,7 +233,11 @@ export default function Todo() {
                                     todo.completed ? "completed" : ""
                                 }`}
                             >
-                                <div className="todo-content">
+                                <div
+                                    className="todo-content"
+                                    onMouseEnter={handleMouseEnter}
+                                    onMouseLeave={handleMouseLeave}
+                                >
                                     <div className="todo-details">
                                         <h3>{todo.title}</h3>
                                         <p>{todo.body}</p>
@@ -226,15 +250,15 @@ export default function Todo() {
                                             }
                                             title="Complete"
                                         >
-                                            {/* <AiOutlineCheckCircle /> */}
                                             <lord-icon
                                                 src="https://cdn.lordicon.com/dangivhk.json"
-                                                trigger="hover"
+                                                trigger="morph"
                                                 stroke="bold"
                                                 style={{
                                                     width: "35px",
                                                     height: "35px",
                                                 }}
+                                                ref={iconRef1}
                                             ></lord-icon>
                                         </button>
                                         <button
@@ -244,12 +268,13 @@ export default function Todo() {
                                         >
                                             <lord-icon
                                                 src="https://cdn.lordicon.com/lsrcesku.json"
-                                                trigger="hover"
+                                                trigger="morph"
                                                 stroke="bold"
                                                 style={{
                                                     width: "35px",
                                                     height: "35px",
                                                 }}
+                                                ref={iconRef2}
                                             ></lord-icon>
                                         </button>
                                     </div>
