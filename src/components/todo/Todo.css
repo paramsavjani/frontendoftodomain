@@ -111,6 +111,11 @@
     .add-todo textarea {
         width: 100%;
         max-width: 700px;
+        margin-bottom: 5px;
+    }
+
+    .add-todo textarea {
+        margin-bottom: 15px;
     }
 }
 
@@ -266,4 +271,66 @@ button:focus {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* Keyframes for complete animation */
+@keyframes completeAnimation {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotate(0deg);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: translateY(-10px) scale(1.1) rotate(10deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.9) rotate(-10deg);
+    }
+}
+
+/* Completed todo item styling with animation */
+.todo-item.completed {
+    animation: completeAnimation 0.5s forwards;
+}
+
+/* Fade-out and slide-up effect for completed items */
+.todo-item.fade-out {
+    animation: completeAnimation 0.5s forwards;
+}
+
+
+
+/* Keyframes for ribbon animation */
+@keyframes ribbonAnimation {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-10px) rotate(10deg);
+    }
+
+    100% {
+        transform: translateY(-20px) rotate(-10deg);
+    }
+}
+
+/* Ribbon styles */
+.ribbon {
+    width: 100px;
+    /* Adjust width as needed */
+    height: 100px;
+    /* Adjust height as needed */
+    position: absolute;
+    top: -60px;
+    /* Adjust vertical position as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(to bottom right, #ff6b6b, #ffc107, #4caf50);
+    /* Adjust colors as needed */
+    border-radius: 50px;
+    animation: ribbonAnimation 0.5s forwards;
 }

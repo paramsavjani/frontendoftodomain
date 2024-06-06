@@ -3,6 +3,7 @@ import "./Todo.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import confetti from "canvas-confetti";
 
 export default function Todo() {
     const [todos, setTodos] = useState([]);
@@ -14,6 +15,7 @@ export default function Todo() {
     const [isReady, setIsReady] = useState(true);
     const iconRefs1 = useRef([]);
     const iconRefs2 = useRef([]);
+    const todoRefs = useRef([]);
 
     const fetchdata = async () => {
         const user = localStorage.getItem("id");
@@ -123,15 +125,30 @@ export default function Todo() {
         }
     };
 
-    const handleComplete = async (id) => {
-        setTodos(todos.filter((todo) => todo._id !== id));
-        const user = localStorage.getItem("id");
-        if (user) {
-            await axios.delete(
-                `https://todo-backend-param.onrender.com/api/v2/deleteTask/${id}`,
-                { data: { user: user } }
-            );
+    const handleComplete = async (id, index) => {
+        // Trigger confetti
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+        });
+
+        // Add the fade-out class to trigger the animation
+        if (todoRefs.current[index]) {
+            todoRefs.current[index].classList.add("fade-out");
         }
+
+        // Wait for the animation to complete before removing the todo
+        setTimeout(() => {
+            setTodos(todos.filter((todo) => todo._id !== id));
+            const user = localStorage.getItem("id");
+            if (user) {
+                axios.delete(
+                    `https://todo-backend-param.onrender.com/api/v2/deleteTask/${id}`,
+                    { data: { user: user } }
+                );
+            }
+        }, 500); // Match the duration of the animation
     };
 
     const handleEdit = (todo) => {
@@ -232,12 +249,17 @@ export default function Todo() {
                                 className={`todo-item ${
                                     todo.completed ? "completed" : ""
                                 }`}
+                                ref={(el) => (todoRefs.current[index] = el)}
                             >
                                 <div
                                     className="todo-content"
                                     onMouseEnter={() => handleMouseEnter(index)}
                                     onMouseLeave={() => handleMouseLeave(index)}
                                 >
+                                    {/* Ribbon for celebration */}
+                                    {todo.completed && (
+                                        <div className="ribbon"></div>
+                                    )}
                                     <div className="todo-details">
                                         <h3>{todo.title}</h3>
                                         <p>{todo.body}</p>
@@ -246,7 +268,7 @@ export default function Todo() {
                                         <button
                                             className="action-button complete-button"
                                             onClick={() =>
-                                                handleComplete(todo._id)
+                                                handleComplete(todo._id, index)
                                             }
                                             title="Complete"
                                         >
