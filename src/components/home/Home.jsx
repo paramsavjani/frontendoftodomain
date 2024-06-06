@@ -1,14 +1,23 @@
-// Home.jsx
-
-import React from "react";
+import React, { useEffect } from "react";
 import "./Home.css"; // Import the corresponding CSS file
 import { useNavigate } from "react-router-dom";
 
 export default function Home() {
     const history = useNavigate();
-    if(localStorage.getItem('id')){
-        history("/todo");
-    }
+
+    useEffect(() => {
+        let hasRedirected = sessionStorage.getItem("redirected");
+        const id = localStorage.getItem("id");
+        if (!hasRedirected) {
+            hasRedirected = false;
+        }
+
+        if (!hasRedirected && id) {
+            sessionStorage.setItem("redirected", true);
+            history("/todo");
+        }
+    }, [history]); // 'history' added to the dependency array
+
     return (
         <div className="home">
             <div className=""></div>
@@ -29,7 +38,10 @@ export default function Home() {
                     </p>
                 </div>
                 {/* <div className="center-button-container"> */}
-                <button className="make-todo-button-home" onClick={()=>history("/signup")}>
+                <button
+                    className="make-todo-button-home"
+                    onClick={() => history("/signup")}
+                >
                     Get Started
                 </button>
             </div>
